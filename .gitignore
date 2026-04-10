@@ -9,3 +9,16 @@ wheels/
 # Virtual environments
 .venv
 .env
+*.env
+.env.*
+*.ini
+*.md
+*.yaml
+scripts
+docs
+adapters
+.pytest_chache
+.gsd
+.gemini
+.agents
+.agent

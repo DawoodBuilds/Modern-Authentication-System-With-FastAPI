@@ -8,7 +8,7 @@ from dependencies.user import get_current_user
 
 router = APIRouter(tags=["Auth"])
 
-@router.post("/register", description="Register User")
+@router.post("/register", description="Register User", status_code=201)
 async def register(user: Annotated[User, Depends(create_user)]):
     return user
 

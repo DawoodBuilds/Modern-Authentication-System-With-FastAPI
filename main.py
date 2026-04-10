@@ -4,11 +4,14 @@ from db.session import engine
 from db.base import Base
 from routers.auth import router as auth_router
 
+import os
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):  
-    async with engine.begin() as conn:
-        await conn.run_sync(Base.metadata.create_all)
-    print("✅ Database is connected") 
+    if not os.getenv("TESTING"):
+        async with engine.begin() as conn:
+            await conn.run_sync(Base.metadata.create_all)
+        print("✅ Database is connected") 
     yield
     print("🛑 Shutdown")
     

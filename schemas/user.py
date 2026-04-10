@@ -1,5 +1,6 @@
 from pydantic import BaseModel, Field, SecretStr, EmailStr, field_validator
 from typing import Annotated
+from fastapi import Form
 import re
 
 class UserCreate(BaseModel):
@@ -11,6 +12,27 @@ class UserCreate(BaseModel):
     address: Annotated[str, Field()] = ""
     phone: Annotated[str, Field()] = ""
 
+    @classmethod
+    def as_form(
+        cls,
+        first_name: str = Form(..., alias="First Name"),
+        last_name: str = Form(..., alias="Last Name"),
+        username: str = Form(...),
+        email: EmailStr = Form(...),
+        password: str = Form(...),
+        address: str = Form(""),
+        phone: str = Form("")
+    ) -> "UserCreate":
+        return cls(
+            first_name=first_name,
+            last_name=last_name,
+            username=username,
+            email=email,
+            password=SecretStr(password),
+            address=address,
+            phone=phone
+        )
+
     @field_validator("password", mode="after")
     @classmethod
     def validate_password(cls, v: SecretStr) -> SecretStr:
@@ -21,11 +43,20 @@ class UserCreate(BaseModel):
             raise ValueError("Password must contain at least one uppercase letter")
         if not re.search(r"\d", password):
             raise ValueError("Password must contain at least one digit")
-        if not re.search(r"[@$!%*?&]", password):
-            raise ValueError("Password must contain at least one special character (@$!%*?&)")
+        if not re.search(r"[@$!%*#?&]", password):
+            raise ValueError("Password must contain at least one special character (@$!%*#?&)")
         return v
     
     @field_validator("username", mode="after")
     @classmethod
     def username_lower(cls, username: str) -> str:
         return username.lower()
+
+class UserLogin(BaseModel):
+    username_or_email: str
+    password: SecretStr
+
+    @field_validator("username_or_email", mode="after")
+    @classmethod
+    def username_lower(cls, v: str) -> str:
+        return v.lower()
