@@ -1,0 +1,19 @@
+[project]
+name = "taskflow"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "aiomysql>=0.3.2",
+    "bcrypt>=5.0.0",
+    "cryptography>=46.0.7",
+    "fastapi>=0.135.3",
+    "passlib>=1.7.4",
+    "pydantic-settings>=2.13.1",
+    "pydantic[email]>=2.12.5",
+    "python-jose[standard]>=3.5.0",
+    "python-multipart>=0.0.24",
+    "sqlalchemy>=2.0.49",
+    "uvicorn>=0.44.0",
+]
