@@ -74,4 +74,4 @@ async def test_get_current_user_with_valid_token(client: AsyncClient):
         headers={"Authorization": f"Bearer {token}"}
     )
     assert response.status_code == 200
-    assert response.json()["username"] == "david786_2"
+    assert response.json()["username"] == register_data["username"]

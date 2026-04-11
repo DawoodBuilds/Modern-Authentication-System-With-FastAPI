@@ -30,6 +30,7 @@ class Settings(BaseSettings):
     secret_key: str = ""
     algorithm: str = ""
     access_token_expires_minutes : int = 60
+    refresh_token_expires_days: int = 7
         
     
 settings = Settings()
